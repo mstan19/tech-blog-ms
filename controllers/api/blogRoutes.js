@@ -7,10 +7,9 @@ router.post('/', checkLogin, async (req, res) => {
   try {
     const newBlog = await Blog.create({
     ...req.body,
-    
       user_id: req.session.user_id,
-
-    ...console.log(req.session)
+      
+    // ...console.log(req.session.user_id)
 
     });
     console.log("checkpoint 2")
