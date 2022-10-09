@@ -1,29 +1,31 @@
 const router = require('express').Router();
 const { Blog } = require('../../models');
-// const checkLogin = require('../utils/checkLogin');
+const checkLogin = require('../../utils/checkLogin');
 
-router.post('/', async (req, res) => {
+router.post('/', checkLogin, async (req, res) => {
+  console.log("checkpoint 1")
   try {
     const newBlog = await Blog.create({
     ...req.body,
+    
       user_id: req.session.user_id,
 
-    });
+    ...console.log(req.session)
 
-    // {
-    //   "id": 4,
-    //   "title": "test title",
-    //   "description": "blah blah",
-    //   "date_created": "more tests"
-    // }
+    });
+    console.log("checkpoint 2")
+
 
     res.status(200).json(newBlog);
   } catch (err) {
     res.status(400).json(err);
   }
-});
+  console.log("checkpoint 3")
 
-router.delete('/:id', async (req, res) => {
+});
+console.log("checkpoint 4")
+
+router.delete('/:id', checkLogin, async (req, res) => {
   try {
     const blogData = await Blog.destroy({
       where: {
