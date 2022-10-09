@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Blog, User, Comment } = require('../models');
-// const checkLogin = require('../utils/checkLogin');
+const checkLogin = require('../utils/checkLogin');
 
 // the homepage
 //Goal: render all the blogs. Needs the checkLogin middleware to seee if the user is logged in (if not the browser will be redirected to login screeen)
@@ -32,20 +32,20 @@ router.get('/', async (req, res) => {
     console.log("***4***")
 
     //temporaily use this
-    res.status(200).json(blogData);
+    // res.status(200).json(blogData);
 
     // Pass serialized data and session flag into template
-    // res.render('homepage', { 
-    //   blogs, 
-    //   logged_in: req.session.logged_in 
-    // });
+    res.render('homepage', { 
+      homepage: blogData, 
+      logged_in: req.session.logged_in   
+    });
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
 //when the user clicks on one of the blogs, it will render that blog using the id
-router.get('/blog/:id', async (req, res) => {
+router.get('/blog/:id', checkLogin, async (req, res) => {
   try {
     console.log("***5***");
 
@@ -67,24 +67,43 @@ router.get('/blog/:id', async (req, res) => {
 // console.log(req.params.id)
     res.status(200).json(blogData);
 
-    // res.render('blog', {
-    //   blogs,
-    //   logged_in: req.session.logged_in
-    // });
+    res.render('blog', {
+      blog,
+      logged_in: req.session.logged_in
+    });
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
+// Use withAuth middleware to prevent access to route
+router.get('/account', checkLogin, async (req, res) => {
+  try {
+    // Find the logged in user based on the session ID
+    const userData = await User.findByPk(req.session.user_id, {
+      attributes: { exclude: ['password'] },
+      include: [{ model: Blog }],
+    });
 
-// router.get('/login', (req, res) => {
-//   // If the user is already logged in, redirect the request to another route
-//   if (req.session.logged_in) {
-//     res.redirect('/blog');
-//     return;
-//   }
+    const user = userData.get({ plain: true });
 
-//   res.render('login');
-// });
+    res.render('profile', {
+      ...user,
+      logged_in: true
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.get('/login', (req, res) => {
+  // If the user is already logged in, redirect the request to another route
+  if (req.session.logged_in) {
+    res.redirect('/blog');
+    return;
+  }
+
+  res.render('login');
+});
 
 module.exports = router;
