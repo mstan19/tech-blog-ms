@@ -13,20 +13,17 @@ router.get('/', async (req, res) => {
 
     //get all blogs and joins it with the user db
     const blogData = await Blog.findAll(
-        {   
-            raw: true,
+        {   raw: true,
             nest: true,
             include: [
                 { 
                     model: User,
                     attributes: ['name'], 
                 }
-
             ],
         }
-
     );
-      console.log("***3***")
+      // console.log(blogData)
 
     // Serialize data so the template can read it
     console.log("***4***")
@@ -36,7 +33,7 @@ router.get('/', async (req, res) => {
 
     // Pass serialized data and session flag into template
     res.render('homepage', { 
-      homepage: blogData, 
+      blogData, 
       logged_in: req.session.logged_in   
     });
   } catch (err) {
@@ -49,7 +46,7 @@ router.get('/blog/:id', checkLogin, async (req, res) => {
   try {
     console.log("***5***");
 
-    const blogData = await Blog.findByPk(req.params.id, 
+    const blogs = await Blog.findByPk(req.params.id, 
         {   
             raw: true,
             nest: true,
@@ -57,18 +54,22 @@ router.get('/blog/:id', checkLogin, async (req, res) => {
                 { 
                     model: Comment,
                     attributes: ['comments'] 
+                },
+                { 
+                  model: User,
+                  attributes: ['name'] 
                 }
 
             ],
         }
     );
-    console.log("***6***");
+    // console.log(blogs);
 
 // console.log(req.params.id)
-    res.status(200).json(blogData);
+    // res.status(200).json(blogIdData);
 
     res.render('blog', {
-      blog,
+      blogs,
       logged_in: req.session.logged_in
     });
   } catch (err) {
@@ -87,7 +88,7 @@ router.get('/account', checkLogin, async (req, res) => {
 
     const user = userData.get({ plain: true });
 
-    res.render('profile', {
+    res.render('account', {
       ...user,
       logged_in: true
     });

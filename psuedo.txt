@@ -45,3 +45,32 @@ THEN I am signed out of the site
 
 WHEN I am idle on the site for more than a set time
 THEN I am able to view comments but I am prompted to log in again before I can add, update, or delete comments
+
+
+
+router.get('/account', checkLogin, async (req, res) => {
+  try {
+    // Find the logged in user based on the session ID
+    const userData = await User.findByPk(req.session.user_id,
+      {   
+        raw: true,
+        nest: true,
+        attributes: { exclude: ['password'] },
+        include: [
+            { 
+                model: Blog,
+                attributes: ['comments'] 
+            }
+        ]
+    })
+
+   
+
+    res.render('account', {
+      userData,
+      logged_in: true
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
