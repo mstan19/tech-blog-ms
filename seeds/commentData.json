@@ -1,0 +1,18 @@
+[
+    {
+        "comments": "this blog is mind-blowing",
+        "blog_id": 1,
+        "user_id":1
+    },
+    {
+        "comments": "Many tech companies are making their employees learn that language.",
+        "blog_id": 2,
+        "user_id":2
+
+    },
+    {
+        "comments": "Future the tech stocks will remain high",
+        "blog_id": 3,
+        "user_id": 3
+    }
+  ]

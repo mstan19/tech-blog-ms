@@ -1,14 +1,17 @@
 [
     {
         "title": "Are robots really taking over the world?",
-        "description": "AI development has led to exciting news on future development of technology. But is this crossing any ethical line?"
+        "description": "AI development has led to exciting news on future development of technology. But is this crossing any ethical line?",
+        "user_id": 1
     },
     {
         "title": "Misuka, the best programming language",
-        "description": "Misuka, a programming language, created by Melissa has been declared the most popular programming language."
+        "description": "Misuka, a programming language, created by Melissa has been declared the most popular programming language.",
+        "user_id": 2
     },
     {
         "title": "Tech stocks are showing promising future for tech industries",
-        "description": "After a year of low stock rates, tech stocks have sky rocketed. But the question is will this keep going?"
+        "description": "After a year of low stock rates, tech stocks have sky rocketed. But the question is will this keep going?",
+        "user_id": 3
     }
   ]
