@@ -1,16 +1,18 @@
-//post 
 const router = require('express').Router();
 const { Comment, Blog, User } = require('../../models');
-// const checklogin = require('../../utils/checkLogin');
+const checkLogin = require('../../utils/checkLogin');
 
 
 
-router.post('/', async (req, res) => {
-    console.log("****", req.body);
+router.post('/', checkLogin, async (req, res) => {
+    // console.log("****", req.body);
   try {
-    console.log("****", req.body);
+    // console.log("****", req.body);
     // const getUserID = await User.findByPk(req.params.id)
-    const newComment = await Comment.create(req.body);
+    const newComment = await Comment.create( {
+      ...req.body,
+      attributes: { exclude: ['password'] },
+    });
 
     res.status(200).json(newComment);
   } catch (err) {
