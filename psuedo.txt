@@ -74,3 +74,6 @@ router.get('/account', checkLogin, async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+commmentRoute (after req.body)
+ // attributes: { exclude: ['password'] },

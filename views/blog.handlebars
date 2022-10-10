@@ -4,8 +4,16 @@
 
   <p>{{blogs.description}}</p>
   <p>Created by {{blogs.User.name}} on {{format_date blogs.date_created}}</p>
-  <p>{{blogs.Comments.comments}}</p>  
-  <p>
-    <button class="btn btn-primary">Add a Comment!</button>
-     {{!-- <button class="commentBtn btn-secondary">Add a Comment!</button> --}}
-  </p>
+  <p class="comment-section" >{{blogs.Comments.comments}}</p>  
+  <form id="comment-section">
+    <div class="form-group">
+      <label for="comment-section">Comment:</label>
+      <textarea class="form-input" id="comments" name="comments"></textarea>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Add a Comment</button>
+    </div>
+  </form>
+</div>
+
+<script src="/js/commentsection.js"></script>
