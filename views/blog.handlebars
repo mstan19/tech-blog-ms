@@ -1,19 +1,30 @@
 
-<div class="text-center">
-  <h2>{{blogs.title}}</h2>
+<div class="row justify-content-evenly">
+  <main class="col-10 m-1">
+    <h2 class="text-center">{{blogs.title}}</h2> 
+      <p class="text-center">Created by {{blogs.User.name}} on {{format_date blogs.date_created}}</p>
+      <p id="blog-desc">{{blogs.description}}</p>
+     
+      {{!-- <p> {{blogs.User.name}}</p> --}}
+  </main>
+  <section class="col-10" id="show-comments">
+    <div class="form-group">
+      <h3 class="text-center" for="label-comment-section">Comment Section</h3>
 
-  <p>{{blogs.description}}</p>
-  <p>Created by {{blogs.User.name}} on {{format_date blogs.date_created}}</p>
-  <p class="comment-section" >{{blogs.Comments.comments}}</p>  
-  <form id="comment-section">
-    <div class="form-group">
-      <label for="comment-section">Comment:</label>
-      <textarea class="form-input" id="comments" name="comments"></textarea>
+      {{#each allComment as |comment|}}
+        <div > 
+          {{!-- <p id="all-comments" >{{blog.Comments.comments}}</p>  --}}
+          {{!-- <p> {{blog.comments}} </p>
+          <p>  {{blog.user.name }}</p> --}}
+          <p>Comment by {{comment.User.name}} on {{format_date comment.date_created}}: {{comment.comments}}</p>
+        </div>
+        {{/each}}
+      <form class="d-flex">
+        <input class="form-control me-2" id="text-comment" type="comment" name="comment" placeholder="Write a comment"></input>
+        <button onclick="addComment()" type="click" class="btn comment-btn btn-outline-success" name="{{blogs.id}}">Add a Comment</button>
+      </form>
     </div>
-    <div class="form-group">
-      <button type="submit" class="btn btn-primary">Add a Comment</button>
-    </div>
-  </form>
+  </section>
 </div>
 
 <script src="/js/commentsection.js"></script>

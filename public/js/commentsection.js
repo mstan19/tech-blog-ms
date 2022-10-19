@@ -1,37 +1,36 @@
-const newFormHandler = async (event) => {
-    event.preventDefault();
-    // console.log("hi")
-    const comment = document.querySelector('#comments').value.trim();
-    const blogId = window.location.toString().split('/')[
-        window.location.toString().split('/').length - 1
-    ];
-    // console.log("***", blogId)
-    if (comment) {
-        // console.log("herer", comment)
-      const response = await fetch(`/api/comment`, {
-        method: 'POST',
-        body: JSON.stringify(
-          { 
-            blog_id: blogId,
-            comments: comment, 
-          }
-         
-        ),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
+const addComment = async () => {
   
-      if (response.ok) {
-        
-        document.location.reload();
-      } else {
-        alert('Failed to add a comment');
-      }
-    }
-  };
+const comments = document.querySelector('#text-comment').value.trim();
+const blogId = document.querySelector('.comment-btn')
 
-document
-    .querySelector('#comment-section')
-    .addEventListener('submit', newFormHandler);
+
+  if(comments) {
+    const response = await fetch(`/api/comment`, {
+    method: 'POST',
+    body: JSON.stringify(
+      {  
+        comments: comments, 
+        blog_id: blogId.name,
+      }
+    ),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+console.log("!!@#!@#blog", blogId.name)
+console.log("comment console", comments)
+
+  if (response.ok) {
+    
+    document.location.reload()
+  } else {
+    alert('Failed to add a comment');
+  }
+}
+};
+
+
+// document
+//     .querySelector('#comment-section')
+//     .addEventListener('submit', newFormHandler);
+

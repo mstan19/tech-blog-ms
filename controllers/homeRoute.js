@@ -6,10 +6,8 @@ const checkLogin = require('../utils/checkLogin');
 //Goal: render all the blogs. Needs the checkLogin middleware to seee if the user is logged in (if not the browser will be redirected to login screeen)
 //put the middleware back in
 router.get('/', async (req, res) => {
-    console.log("****1**")
 
   try {
-    console.log("***2***")
 
     //get all blogs and joins it with the user db
     const blogData = await Blog.findAll(
@@ -23,10 +21,8 @@ router.get('/', async (req, res) => {
             ],
         }
     );
-      // console.log(blogData)
 
     // Serialize data so the template can read it
-    console.log("***4***")
 
     //temporaily use this
     // res.status(200).json(blogData);
@@ -41,10 +37,10 @@ router.get('/', async (req, res) => {
   }
 });
 
+//add middleware
 //when the user clicks on one of the blogs, it will render that blog using the id
 router.get('/blog/:id', checkLogin, async (req, res) => {
   try {
-    console.log("***5***");
 
     const blogs = await Blog.findByPk(req.params.id, 
         {   
@@ -63,13 +59,27 @@ router.get('/blog/:id', checkLogin, async (req, res) => {
             ],
         }
     );
-    // console.log(blogs);
 
-// console.log(req.params.id)
+    const allComment = await Comment.findAll(
+      {   
+          raw: true,
+          nest:true,
+          where: {blog_id: blogs.id},
+          include: [
+            
+            { 
+              model: User,
+              attributes: ['name'] 
+            }
+
+        ],
+      }
+  );
     // res.status(200).json(blogIdData);
-
+    console.log("** allComment",allComment)
     res.render('blog', {
       blogs,
+      allComment,
       logged_in: req.session.logged_in
     });
   } catch (err) {
@@ -78,7 +88,7 @@ router.get('/blog/:id', checkLogin, async (req, res) => {
 });
 
 // Use withAuth middleware to prevent access to route
-router.get('/account', checkLogin, async (req, res) => {
+router.get('/account', async (req, res) => {
   try {
     // Find the logged in user based on the session ID
     const userData = await User.findByPk(req.session.user_id, {

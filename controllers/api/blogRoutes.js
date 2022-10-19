@@ -3,29 +3,24 @@ const { Blog } = require('../../models');
 const checkLogin = require('../../utils/checkLogin');
 
 router.post('/', checkLogin, async (req, res) => {
-  // console.log("checkpoint 1")
   try {
     const newBlog = await Blog.create({
     ...req.body,
       user_id: req.session.user_id,
       
-    // ...console.log(req.session)
 
     });
-    // console.log("checkpoint 2")
 
-    // res.render('account', {
-    //   newBlog,
-    //   logged_in: req.session.logged_in
-    // });
-    res.status(200).json(newBlog);
+    res.render('account', {
+      newBlog,
+      logged_in: req.session.logged_in
+    });
+    // res.status(200).json(newBlog);
   } catch (err) {
     res.status(400).json(err);
   }
-  // console.log("checkpoint 3")
 
 });
-// console.log("checkpoint 4")
 
 router.delete('/:id', checkLogin, async (req, res) => {
   try {
