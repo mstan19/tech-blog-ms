@@ -5,7 +5,7 @@ const newFormHandler = async (event) => {
     const description = document.querySelector('#blog-desc').value.trim();
     
     if (blogTitle && description) {
-      const response = await fetch(`/api/blog`, {
+      const response = await fetch(`/api/blog/`, {
         method: 'POST',
         body: JSON.stringify(
           {
@@ -19,7 +19,7 @@ const newFormHandler = async (event) => {
       
   
       if (response.ok) {
-        document.location.replace('/account');
+        document.location.reload('/account');
       } else {
         alert('Failed to create a blog');
       }
@@ -46,7 +46,7 @@ const newFormHandler = async (event) => {
     .querySelector('.new-blog-form')
     .addEventListener('submit', newFormHandler);
   
-  document
-    .querySelector('.blog-list')
-    .addEventListener('click', delButtonHandler);
+  // document
+  //   .querySelector('.blog-list')
+  //   .addEventListener('click', delButtonHandler);
   

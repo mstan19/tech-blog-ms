@@ -97,9 +97,9 @@ router.get('/account', async (req, res) => {
     });
 
     const user = userData.get({ plain: true });
-
+console.log("this is the user", user)
     res.render('account', {
-      ...user,
+      user,
       logged_in: true
     });
   } catch (err) {
