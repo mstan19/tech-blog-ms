@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-auto">
-    <h2 id="username">Welcome, {{name}}!</h2>
+    <h2 id="username">Welcome, {{user.name}}!</h2>
   </div>
 </div>
 
@@ -25,7 +25,7 @@
 
   {{#if user.Blogs.length}}
   <div class="col-md-6 blog-list">
-    <h3>Current blogs:</h3>
+    <h3>Current Blogs:</h3>
 
     {{#each user.Blogs as |blog|}}
     <div class="row mb-2">
@@ -33,9 +33,33 @@
         <h4><a href="/blog/{{blog.id}}">{{blog.title}}</a></h4>
       </div>
       <div class="col-md-4">
-        <button class="btn btn-sm btn-danger" data-id="{{blog.id}}">DELETE</button>
+        <button class="btn delete-btn btn-sm btn-danger" data-id="{{blog.id}}">DELETE</button>
       </div>
     </div>
+    {{/each}}
+  </div>
+  {{/if}}
+</div>
+
+{{!-- UPDATE  --}}
+ {{#if user.Blogs.length}}
+  <div class="col-md-6 blog-list">
+    <h3>Update Blogs:</h3>
+
+    {{#each user.Blogs as |blog|}}
+    <form class="form new-blog-form">
+      <div class="form-group">
+        <label for="update-blog-title">Blog Title: {{blog.title}}</label>
+        <input class="form-input" type="text" id="update-blog-title{{blog.id}}" name="update-blog-title" />
+      </div>
+      <div class="form-group">
+        <label for="update-blog-desc">Content:</label>
+        <textarea class="form-input" id="update-blog-desc{{blog.id}}" name="update-blog-desc"></textarea>
+      </div>
+      <div class="form-group">
+        <button class="btn update-btn btn-sm btn-warning" type="submit" id="update-btn" data-id="{{blog.id}}">UPDATE</button>
+      </div>
+    </form>
     {{/each}}
   </div>
   {{/if}}

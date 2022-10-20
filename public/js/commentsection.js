@@ -17,8 +17,8 @@ const blogId = document.querySelector('.comment-btn')
       'Content-Type': 'application/json',
     },
   });
-console.log("!!@#!@#blog", blogId.name)
-console.log("comment console", comments)
+// console.log("!!@#!@#blog", blogId.name)
+// console.log("comment console", comments)
 
   if (response.ok) {
     

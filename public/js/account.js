@@ -41,12 +41,48 @@ const newFormHandler = async (event) => {
       }
     }
   };
+
+  const updateButtonHandler = async (event) => {
+    event.preventDefault();
+  // console.log("upate###")
+    const id = event.target.getAttribute('data-id');
+    const bTitle = document.querySelector(`#update-blog-title${id}`).value.trim();
+    const bdescription = document.querySelector(`#update-blog-desc${id}`).value.trim();
+   
+      const response = await fetch(`/api/blog/update/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(
+          {
+            title: bTitle, description: bdescription
+          }
+        ),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+  
+      if (response.ok) {
+        document.location.reload('/account');
+      } else {
+        alert('Failed to update blog');
+      }
+    
+  };
   
   document
     .querySelector('.new-blog-form')
     .addEventListener('submit', newFormHandler);
   
-  // document
-  //   .querySelector('.blog-list')
-  //   .addEventListener('click', delButtonHandler);
+
+  const deleteBTN = document.querySelectorAll('.delete-btn')
+    for (let i = 0; i < deleteBTN.length; i++) {
+      deleteBTN[i].addEventListener('click', delButtonHandler);
+    }
+
+
+  const updatebtn = document.querySelectorAll('#update-btn')
+  for (let i = 0; i < updatebtn.length; i++) {
+    updatebtn[i].addEventListener('click', updateButtonHandler);
+  }
   

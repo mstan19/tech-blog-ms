@@ -76,7 +76,7 @@ router.get('/blog/:id', checkLogin, async (req, res) => {
       }
   );
     // res.status(200).json(blogIdData);
-    console.log("** allComment",allComment)
+    // console.log("** allComment",allComment)
     res.render('blog', {
       blogs,
       allComment,
@@ -90,6 +90,7 @@ router.get('/blog/:id', checkLogin, async (req, res) => {
 // Use withAuth middleware to prevent access to route
 router.get('/account', async (req, res) => {
   try {
+    console.log("re.session", req.session)
     // Find the logged in user based on the session ID
     const userData = await User.findByPk(req.session.user_id, {
       attributes: { exclude: ['password'] },
